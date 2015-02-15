@@ -1,0 +1,28 @@
+Todo for 70 MHz-fyr:
+- Termisk dobbeltsidig teip på PCB
+
+Fra PWM-pinne på uC til kontrollingang på VGA:
+  --3k3----------3k3----4k7--
+         |    |      |
+        3k3  0.1u  0.1u
+
+1.2 / WPM = T_dit (seconds)
+1200000 / 64 / WPM = 18750 / WPM = timer ticks
+VGA ADL5330 kontrollspenning: 0.1V gir -35db, 1.4V gir 23db (20.7 mv/db), 0 dB ved ca. 0.9V.
+Måler 1.386 V ved duty 220 fra uC
+
+PA:
+http://rudius.net/oz2m/70mhz/pmpa.htm
+Pin = -5.5 dBm (fra radiokort)
+4.1 V Vgg: 16.0 dBm -> 21.5 dB gain.
+4.9 V Vgg: 21.3 dBm -> 26.8 dB gain.
+Fjernet attenuator: 31.2 dBm -> 36.7 dB gain.
+70063 KHz. Spurrer på +/- 63 Khz er på -40 dBc
+Datablad sier 40 dB gain ved Vgg=5, Vdd=12.5, f=77M, Pin=-5dBm. PA ligger under dette.
+
+Arbeid 120214:
+Ut fra ref: 8.9 dBm @ 10 MHz
+Ut fra CW-kort: 9.6 dBm på 70,062 MHz (duty 220, adf-pwr 2 - 3.2 dBm med adf-pwr 0), -58.6 dBm på 10 MHz (lekker fra ref.)
+Ut fra PA: 43.85 dBm @ carrier, 70 MHz er ca. 50 dB lavere. Strømtrekk er 12 V 5.8 A (69.6 W), idle 3.3 A (39.6 W)
+
+
