@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include "platform.h"
 
-#define BUFFER_SIZE 32
+#define BUFFER_SIZE 128
 #define BUFFER_MASK (BUFFER_SIZE - 1)
 
 volatile char rxbuffer[BUFFER_SIZE];
@@ -64,13 +64,8 @@ char uart_get(void){
 }
 
 void uart_put(char c){
+	if(txop == ((txip+1) & BUFFER_MASK)) return;
 	INTCONbits.GIE = 0;
-	if(txop == ((txip+1) & BUFFER_MASK)){
-		PIE1bits.TXIE = 1;
-		INTCONbits.GIE = 1;
-		while(PIE1bits.TXIE);
-		INTCONbits.GIE = 0;
-	}
 	txbuffer[txip] = c;
 	txip = (txip+1) & BUFFER_MASK;
 	PIE1bits.TXIE = 1;

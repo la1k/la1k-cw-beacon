@@ -14,8 +14,11 @@
 #define ADF_EN LATCbits.LATC0
 #define ADF_LE LATCbits.LATC1
 #define ADF_CLK LATCbits.LATC3
-#define LED	LATBbits.LATB0
 
-void platform_init();
+#define STANDBY_BTN PORTBbits.RB0
+#define MANUAL_KEY_INV_BTN PORTBbits.RB1
+#define KEY_LED	LATBbits.LATB2
+
+void platform_init(void);
 
 #endif

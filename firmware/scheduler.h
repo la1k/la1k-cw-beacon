@@ -6,9 +6,9 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#define SCH_INDEX_CW	0
-#define SCH_INDEX_LEDS	1
-#define SCH_INDEX_PWM	1
+#define SCH_INDEX_CW 0
+#define SCH_INDEX_BUTTON 1
+#define SCH_INDEX_PWM 2
 
 #include <stdint.h>
 

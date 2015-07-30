@@ -6,7 +6,7 @@
 #include "platform.h"
 #include <p18f26k22.h>
 
-void platform_init(){
+void platform_init(void){
 	// Oscillator setup
 	OSCCONbits.IRCF = 0b111;	// 16MHz int osc.
 	OSCCONbits.OSTS = 0;		// Internal osc.
@@ -15,10 +15,13 @@ void platform_init(){
 
 	// Port setup
     TRISA   = 0b00000000;
-    TRISB   = 0b00000000;
+    TRISB   = 0b00000011; // Buttons on RB0/RB1
+	WPUB    = 0b00000011; // Weak pull-up on RB0/RB1
+	INTCON2bits.RBPU = 0;
     TRISC   = 0b10000000;
 	ANSELA = ANSELB = ANSELC = 0;
 
+	
 	// RB0-3 er GPIO
 	// RC2/CCP1 er ADL_GAIN
 	// UART_TX RC6, UART_RX RC7

@@ -21,8 +21,8 @@ typedef struct{
 
 
 void cw_pack(char* s);
-void cw_on();
-void cw_off();
+void cw_on(void);
+void cw_off(void);
 uint8_t cw_nb_tick(cw_nb_t* cw);
 void cw_nb_init(char* s, cw_nb_t* cw);
 

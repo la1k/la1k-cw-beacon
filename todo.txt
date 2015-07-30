@@ -24,5 +24,37 @@ Arbeid 120214:
 Ut fra ref: 8.9 dBm @ 10 MHz
 Ut fra CW-kort: 9.6 dBm på 70,062 MHz (duty 220, adf-pwr 2 - 3.2 dBm med adf-pwr 0), -58.6 dBm på 10 MHz (lekker fra ref.)
 Ut fra PA: 43.85 dBm @ carrier, 70 MHz er ca. 50 dB lavere. Strømtrekk er 12 V 5.8 A (69.6 W), idle 3.3 A (39.6 W)
+Kjøper høypassfilter mellom ref. og CW-kort.
 
+Arbeid 9/5/15:
+Ut fra AUX-utgang: 3.5 dBm
+Ut fra RF-utgang: ca. 8.5 dBm (med 1.4 V på Vgain og nivå 3 på synth). For lavt.
+4.2 dBm når RF-utgang står på nivå 0.
+PA: -26 dBm andreharmonisk når bærebølge er 40 dBm, ref. er ca. -70 dBc
+Satte PA tilbake i chassis, og ref. er nå 2 dBm på utgang!
+
+Arbeid 30/05/15:
+Annet fyrkort gir bare -2 dBm ut.
+12V 5A (60 W) på PA for 44 dBm (25 W) ut
+Ble perfekt 43 dBm med power 2 og pwm 215
+
+Arbeid 31/5/15:
+70cm PA: 12 V, 3.85 A ved 43 dBm ut.
+Skyter i været ved ca. 20 dBm inn. Ved 23 dBm inn gir den 43 dBm ut (og er litt renere enn ved 20 dBm inn).
+Bruker Mini-circuits amp. som buffer (-13 dBm fra generator).
+Satt ned charge pump fra 2.5 mA 0.63 mA som reduserte spurrer - mulig 
+band select clock er r-counter utgang delt på band clk divider
+Eksisterende loop-filter 30 KHz 4 mA drive
+Lage tnytt 12.5 khz 4mA drive filter
+fikk ikke lock med nytt filter! endret PFD til 1 MHz, fikk da lock
+Fikk ikke dither til å aktiveres
+Med ref. double får man 20 MHz PFD - gir mindre fasestøy
+Viste seg at en endring i FW gjorde at frekvens aldri ble satt!
+
+Arbeid 14/6/15:
+Bytter ut ADL på første kort. Effekten går drastisk opp:
+Duty=200, -4 ut fra ADF, gir 18 dBm ut, 3. harmonisk 2dBm, men MYE rusk rundt grunnfrekvens.
+Bytta ut PWM-filter, fra uC: 3.3k, 0.1u, 3.3k, 0.1u, 3.3k, 0.1u+10k, ser bra ut men groms, sannsynligvis fra PLL
+Bytta loop-filter til... Hjalp ikke mye. Støy ligger ca. +/- 56 KHz unna.
+Optimalisert adf_set_freq i kode
 

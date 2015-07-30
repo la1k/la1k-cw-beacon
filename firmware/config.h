@@ -12,8 +12,7 @@ typedef struct{
 	char cw_string[100];
 	uint32_t freq;
 	uint8_t duty;
-
-	char term_end[3];
+	uint8_t ramp_time;
 }config_t;
 
 extern config_t config;
@@ -22,6 +21,6 @@ extern config_t config;
 extern unsigned int cmd_buf_len;
 extern uint8_t cmd_buf[CMD_BUF_SIZE];
 
-void config_set_freq();
+void config_set_freq(void);
 
 #endif

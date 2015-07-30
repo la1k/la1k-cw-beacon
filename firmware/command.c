@@ -97,7 +97,7 @@ void cmd_help_arg(uint8_t ci){
 	CMD_PUT(')');
 }
 
-void cmd_help_list(){
+void cmd_help_list(void){
 	uint8_t i = 0;
 	while (1){
 		cmd_strcpy_put_const(CMD_PUT, cmd_list[i].name);
@@ -314,33 +314,33 @@ void cmd(char* cmd){
 	switch (ret){
 		case RET_CMD_INVALID:
 			cmd_strcpy_put_const(CMD_PUT, "CMD_INV");
-			cmd_strcpy_put(CMD_PUT, CMD_END);
+			cmd_strcpy_put_const(CMD_PUT, CMD_END);
 			if (CMD_ECHO) CMD_PUT('>');
 			break;
 		case RET_ARG_INVALID:
 			cmd_strcpy_put_const(CMD_PUT, "ARG_INV");
-			cmd_strcpy_put(CMD_PUT, CMD_END);
+			cmd_strcpy_put_const(CMD_PUT, CMD_END);
 			if (CMD_ECHO) CMD_PUT('>');
 			break;
 		case RET_OK:
 			cmd_strcpy_put_const(CMD_PUT, "OK");
-			cmd_strcpy_put(CMD_PUT, CMD_END);
+			cmd_strcpy_put_const(CMD_PUT, CMD_END);
 			if (CMD_ECHO) CMD_PUT('>');
 			break;
 		case RET_REPLY:
-			cmd_strcpy_put(CMD_PUT, CMD_END);
+			cmd_strcpy_put_const(CMD_PUT, CMD_END);
 			if (CMD_ECHO) CMD_PUT('>');
 			break;
 		case RET_EXIT:
 			cmd_strcpy_put_const(CMD_PUT, "OK");
-			cmd_strcpy_put(CMD_PUT, CMD_END);
+			cmd_strcpy_put_const(CMD_PUT, CMD_END);
 			break;
 	}
 }
 
-void cmd_init(){
+void cmd_init(void){
 	if (CMD_ECHO){
-		cmd_strcpy_put(CMD_PUT, CMD_END);
+		cmd_strcpy_put_const(CMD_PUT, CMD_END);
 		CMD_PUT('>');
 	}
 	cmd_buf_len = 0;
@@ -354,7 +354,7 @@ void cmd_byte(char c){
 		case 0x0A:
 			if (prev != 0x0D){	// Only check for LF, as LFCR is unusual
 				cmd_buf[cmd_buf_len] = 0;
-				if (CMD_ECHO) cmd_strcpy_put(CMD_PUT, CMD_END);
+				if (CMD_ECHO) cmd_strcpy_put_const(CMD_PUT, CMD_END);
 				cmd(&cmd_buf[0]);
 				cmd_buf_len = 0;
 			}

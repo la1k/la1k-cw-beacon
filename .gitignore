@@ -1,3 +1,5 @@
 orders/
+firmware/build/
+firmware/dist/
 *~
 

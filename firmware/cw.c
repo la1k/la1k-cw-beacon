@@ -10,34 +10,38 @@
 #include "platform.h"	// XTAL_FREQ
 #include "adf.h"
 #include "timing.h"
+#include "config.h"
 
 #define DUTY_MAX 220
 #define RISE_TIME 200 // 50us = 11ms
 
-void cw_on(){
+void cw_on(void){
     // Enable synth output
 	adf_common.rf_enable = 1;
 	adf_set_all();
-	LED = 1;
+	KEY_LED = 1;
 
     // Ramp up power
+	uint8_t j;
 	uint8_t duty = 0;
-	while (duty < DUTY_MAX){
+	while ((duty < config.duty) && (duty<DUTY_MAX)){
 		pwm_set(duty);
-		duty+=1;
-		__delay_us(RISE_TIME);
+		duty++;
+		for (j=0; j<config.ramp_time; j++) __delay_us(1);
+		
 	}
 }
 
-void cw_off(){
+void cw_off(void){
     // Ramp down power
-	uint8_t duty = DUTY_MAX;
+	uint8_t j;
+	uint8_t duty = config.duty;
 	while (duty > 0){
 		pwm_set(duty);
-		duty-=1;
-		__delay_us(RISE_TIME);
+		duty--;
+		for (j=0; j<config.ramp_time; j++) __delay_us(1);
 	}
-	LED = 0;
+	KEY_LED = 0;
 
     // Disable synth output
 	adf_common.rf_enable = 0;

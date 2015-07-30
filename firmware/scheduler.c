@@ -12,7 +12,7 @@
 #define SCH_RAW_TIMER			TMR0
 #define SCH_RAW_TIMER_MS_SCALE	125
 #define SCH_RAW_TIMER_VAR		uint16_t
-#define SCH_TASKS_SIZE			5
+#define SCH_TASKS_SIZE			3
 
 typedef struct{
 	uint8_t enable;
@@ -23,7 +23,6 @@ typedef struct{
 
 sch_task_t sch_tasks[SCH_TASKS_SIZE];
 uint32_t sch_timer;			// "Downscaled" timer
-uint8_t sch_timer_upcoming;	// Time for next upcoming task - to improve speed
 SCH_RAW_TIMER_VAR raw_prev;
 
 // Add new task
@@ -63,28 +62,15 @@ void sch_tick(void){
 	if (delta_ms){
 		raw_prev += (delta_ms*SCH_RAW_TIMER_MS_SCALE);
 		sch_timer += delta_ms;
-		
-		// If the next upcoming task is due - sch_timer_upcoming allows only one check
-		if ( (sch_timer-sch_timer_upcoming) < 0x7FFFFFFF ){
 
-			// Find the due task(s) including those after the upcoming, run it, and find next interval
-			uint8_t j;
-			uint32_t delta, delta_min = 0x7FFFFFFF;
-			for (j=0; j<SCH_TASKS_SIZE; j++){
-				// If task is enabled
-				if (sch_tasks[j].enable){
-					// Check if its due, run it, find next interval
-					if ( (sch_timer-sch_tasks[j].next) < 0x7FFFFFFF ){
-						sch_tasks[j].task();
-						sch_tasks[j].next += sch_tasks[j].interval;
-					}
-
-					// Check if this is the next upcoming task - at this point no tasks are due, so no need to check wrapping
-					delta = sch_tasks[j].next - sch_timer;
-					if (delta < delta_min) delta_min = delta;
-				}
+		// Find the due task(s)
+		uint8_t j;
+		for (j=0; j<SCH_TASKS_SIZE; j++){
+			// Check if task is enabled and due, run it, find next interval
+			if ( sch_tasks[j].enable && ((sch_timer-sch_tasks[j].next) < 0x7FFFFFFF) ){
+				sch_tasks[j].task();
+				sch_tasks[j].next += sch_tasks[j].interval;
 			}
-			sch_timer_upcoming = sch_timer + delta_min;		
 		}
 	}
 }

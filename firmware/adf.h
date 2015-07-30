@@ -64,14 +64,16 @@ typedef struct{
 	uint8_t rf_divider;
 	uint8_t rf_enable;
 	uint8_t aux_enable;
+	uint8_t aux_power;
+	uint8_t rf_power;
 }adf_common_t;
 
 extern adf_common_t adf_common;
 
 void adf_write(uint32_t data);
-void adf_init();
+void adf_init(void);
 void adf_calc_freq(uint32_t f);
 void adf_calc_and_set_freq(uint32_t f);
-void adf_set_all();
+void adf_set_all(void);
 
 #endif
